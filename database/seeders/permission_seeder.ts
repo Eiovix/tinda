@@ -33,6 +33,12 @@ export default class extends BaseSeeder {
         updatedAt: DateTime.now().toISO(),
       },
       {
+        name: 'store_view',
+        description: 'View Stores',
+        createdAt: DateTime.now().toISO(),
+        updatedAt: DateTime.now().toISO(),
+      },
+      {
         name: 'store_edit',
         description: 'Edit a store',
         createdAt: DateTime.now().toISO(),
@@ -46,6 +52,12 @@ export default class extends BaseSeeder {
       },
 
       // Tenant Store permissions
+      {
+        name: 'store_product_view',
+        description: 'View products in a store',
+        createdAt: DateTime.now().toISO(),
+        updatedAt: DateTime.now().toISO(),
+      },
       {
         name: 'store_product_create',
         description: 'Create a new product in a store',
@@ -61,6 +73,12 @@ export default class extends BaseSeeder {
       {
         name: 'store_product_delete',
         description: 'Delete products in a store',
+        createdAt: DateTime.now().toISO(),
+        updatedAt: DateTime.now().toISO(),
+      },
+      {
+        name: 'store_user_view',
+        description: 'View users your store',
         createdAt: DateTime.now().toISO(),
         updatedAt: DateTime.now().toISO(),
       },

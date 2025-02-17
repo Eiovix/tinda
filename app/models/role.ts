@@ -8,6 +8,12 @@ export default class Role extends BaseModel {
   @column()
   declare name: string
 
+  @column()
+  declare description: string | null
+
+  @column()
+  declare permissions: string | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

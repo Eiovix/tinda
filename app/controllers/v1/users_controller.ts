@@ -3,8 +3,6 @@ import User from '#models/user'
 import { createUserValidator } from '#validators/user'
 export default class UsersController {
   public async index({ response, request }: HttpContext) {
-    // response.send('Hello world')
-
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
 

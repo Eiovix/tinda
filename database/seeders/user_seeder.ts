@@ -7,6 +7,7 @@ export default class extends BaseSeeder {
       {
         email: 'test@test.com',
         password: '1',
+        is_verified: true,
       },
     ])
   }

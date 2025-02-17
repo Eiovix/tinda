@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name').notNullable()
       table.text('description').nullable()
+      table.text('permissions').nullable()
       table.timestamps(true, true)
     })
   }
