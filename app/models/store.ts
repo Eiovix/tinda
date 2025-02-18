@@ -8,6 +8,9 @@ export default class Store extends BaseModel {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
+  @column()
+  declare slug: string
+
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 }

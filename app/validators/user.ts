@@ -1,3 +1,4 @@
+import db from '@adonisjs/lucid/services/db'
 import vine from '@vinejs/vine'
 
 /**
@@ -15,6 +16,13 @@ export const createUserValidator = vine.compile(
         return !user
       }),
 
+    username: vine
+      .string()
+      .maxLength(10)
+      .unique(async (db, value) => {
+        const user = await db.from('users').where('username', value).first()
+        return !user
+      }),
     password: vine
       .string()
       .minLength(5)

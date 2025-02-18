@@ -5,6 +5,12 @@ export default class RolePermission extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
+  @column()
+  declare roleId: number
+
+  @column()
+  declare permissionId: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

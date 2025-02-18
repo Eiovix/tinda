@@ -11,11 +11,14 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 })
 
 export default class User extends compose(BaseModel, AuthFinder) {
+  generateToken() {
+    throw new Error('Method not implemented.')
+  }
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare fullName: string | null
+  declare username: string
 
   @column()
   declare email: string

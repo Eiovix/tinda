@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-
+import { BaseModel, column, computed } from '@adonisjs/lucid/orm'
+// import Env from '@ioc:Adonis/Core/Env'
+import Env from '#start/env'
 export default class UserProfile extends BaseModel {
   @column({ isPrimary: true })
   public id!: number
@@ -15,10 +16,10 @@ export default class UserProfile extends BaseModel {
   public lastName!: string
 
   @column()
-  public profilePicture: string | null = null
+  public profilePicture: number | null = null
 
   @column()
-  public coverPhoto: string | null = null
+  public coverPhoto: number | null = null
 
   @column()
   public userId: number | null = null
@@ -28,4 +29,17 @@ export default class UserProfile extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt!: DateTime
+
+  // Compute image URLs dynamically
+  @computed()
+  public get profilePictureUrl() {
+    return this.profilePicture
+      ? `${Env.get('APP_URL')}/uploads/profile_pictures/${this.profilePicture}`
+      : null
+  }
+
+  @computed()
+  public get coverPhotoUrl() {
+    return this.coverPhoto ? `${Env.get('APP_URL')}/uploads/cover_photos/${this.coverPhoto}` : null
+  }
 }
