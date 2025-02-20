@@ -15,11 +15,17 @@ export default class UsersController {
           expiresIn: '30 days', // expires in 30 days
         }
       )
+      const profile = await UserProfile.query().where('user_id', user.id).first()
+
+      const data = {
+        user,
+        profile,
+        token,
+      }
 
       return response.status(200).json({
         message: 'Login successful.',
-        user,
-        token,
+        data,
       })
     } catch (error) {
       console.log('Login error:', error)
@@ -34,7 +40,6 @@ export default class UsersController {
       const user = auth.user!
       console.log('user', auth.user)
       await User.accessTokens.delete(user, user.currentAccessToken.identifier)
-
       return response.status(200).json({
         message: 'Logout successful.',
       })
@@ -68,7 +73,8 @@ export default class UsersController {
 
   public async profile({ auth, response }: HttpContext) {
     const user = auth.user!
-    const profile = await UserProfile.findBy('user_id', user.id)
+
+    const profile = await UserProfile.query().where('user_id', user.id).first()
     const data = {
       user,
       profile,

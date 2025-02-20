@@ -13,10 +13,9 @@ interface ImageSizes {
 
 class ImageProcessor {
   private readonly imageSizes: ImageSizes = {
-    mobile: { width: 320, height: 240 },
-    tablet: { width: 768, height: 576 },
-    laptop: { width: 1024, height: 768 },
-    desktop: { width: 1920, height: 1080 },
+    thumbnail: { width: 320, height: 240 },
+    medium: { width: 768, height: 576 },
+    large: { width: 1024, height: 768 },
   }
 
   private async fetchImageBuffer(url: string): Promise<Buffer> {

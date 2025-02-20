@@ -1,25 +1,19 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 
-export default class MediaStyle extends BaseModel {
+export default class UserRole extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare name: string
+  declare user_id: number
 
   @column()
-  declare width: number
-
-  @column()
-  declare height: number
-
-  @column()
-  declare quality: number
-
-  @column()
-  declare style: string
+  declare role_id: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
 }

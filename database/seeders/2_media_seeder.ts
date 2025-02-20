@@ -11,14 +11,20 @@ export default class extends BaseSeeder {
 
     await mediaService.processImage(imgUrl, 'public/uploads/profile_pictures', 'profile')
 
-    // await Media.createMany([
-    //   {
-    //     name: 'profile',
-    //     width: 200,
-    //     height: 200,
-    //     style: 'crop',
-    //     quality: 100,
-    //   },
-    // ])
+    await Media.createMany([
+      {
+        name: 'profile',
+        alternativeText: 'Profile picture',
+        caption: 'Profile picture',
+        hash: 'profile',
+        ext: 'jpg',
+        mime: 'image/jpeg',
+        size: 1000,
+        url: 'uploads/profile_pictures/1-profile.jpg',
+        provider: 'local',
+        width: 200,
+        height: 200,
+      },
+    ])
   }
 }

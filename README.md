@@ -21,9 +21,9 @@ A small app
 
 The app is built with:
 
-- AdonisJS 5
-- PostgreSQL
-- Node.js 16+
+- AdonisJS 6
+- MySQL
+- Node.js 20+
 
 ## Testing
 

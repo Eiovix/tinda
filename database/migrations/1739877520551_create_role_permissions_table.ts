@@ -14,7 +14,7 @@ export default class extends BaseSchema {
         .references('id')
         .inTable('permissions')
         .onDelete('CASCADE')
-        
+
       table.timestamp('created_at', { useTz: true }).notNullable().defaultTo(this.now())
       table.timestamp('updated_at', { useTz: true }).notNullable().defaultTo(this.now())
     })

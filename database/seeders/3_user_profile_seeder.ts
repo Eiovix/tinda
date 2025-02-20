@@ -61,21 +61,15 @@ class ImageProcessor {
 
 export default class UserProfileSeeder extends BaseSeeder {
   public async run() {
-    const imageProcessor = new ImageProcessor()
-    const imgUrl =
-      'https://www.akc.org/wp-content/uploads/2017/11/Affenpinscher-running-outdoors.jpg'
-
-    await imageProcessor.generateImages(imgUrl, 'public/uploads/profile_pictures', 'profile')
-
-    // await UserProfile.createMany([
-    //   {
-    //     user_id: 1,
-    //     first_name: 'John',
-    //     middle_name: 'Hello',
-    //     last_name: 'Doe',
-    //     profile_picture: 1,
-    //     cover_photo: 1,
-    //   },
-    // ])
+    await UserProfile.createMany([
+      {
+        user_id: 1,
+        first_name: 'John',
+        middle_name: 'Hello',
+        last_name: 'Doe',
+        profile_picture: 1,
+        cover_photo: 1,
+      },
+    ])
   }
 }

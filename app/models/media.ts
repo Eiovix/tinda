@@ -6,6 +6,9 @@ export default class Media extends BaseModel {
   declare id: number
 
   @column()
+  declare uuid: string
+
+  @column()
   declare name: string
 
   @column()
