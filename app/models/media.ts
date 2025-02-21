@@ -24,7 +24,7 @@ export default class Media extends BaseModel {
   declare height: number
 
   @column()
-  declare formats: JSON
+  declare formats: string
 
   @column()
   declare hash: string
@@ -45,7 +45,7 @@ export default class Media extends BaseModel {
   declare provider: string
 
   @column()
-  declare provider_metadata: JSON
+  declare provider_metadata: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

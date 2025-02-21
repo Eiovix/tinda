@@ -1,40 +1,59 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { schema } from '@adonisjs/validator'
+import { schema, rules } from '@adonisjs/validator'
 import drive from '@adonisjs/drive/services/main'
 import { cuid } from '@adonisjs/core/helpers'
 import sharp from 'sharp'
 import fs from 'fs/promises'
 import MediaStyle from '#models/media_style'
-
+import Media from '#models/media'
 export default class MediaController {
   async store({ request, response }: HttpContext) {
     try {
-      // Validate multiple file upload
-      const payload = await request.validate({
-        schema: schema.create({
-          avatar: schema.array().members(
-            schema.file({
+      // Get uploaded file(s)
+      let mediaFiles = request.files('media')
+
+      if (!mediaFiles || (Array.isArray(mediaFiles) && mediaFiles.length === 0)) {
+        return response.badRequest({ error: 'No media files uploaded' })
+      }
+      // Ensure mediaFiles is always an array
+      if (!Array.isArray(mediaFiles)) {
+        mediaFiles = [mediaFiles] as typeof mediaFiles
+      }
+      if (mediaFiles.length > 1) {
+        await request.validate({
+          schema: schema.create({
+            media: schema.array().members(
+              schema.file({
+                size: '10mb',
+                extnames: ['jpg', 'png', 'jpeg', 'webp'],
+              })
+            ),
+          }),
+        })
+      } else {
+        await request.validate({
+          schema: schema.create({
+            media: schema.file.optional({
               size: '10mb',
               extnames: ['jpg', 'png', 'jpeg', 'webp'],
-            })
-          ),
-        }),
-      })
+            }),
+          }),
+        })
+      }
 
-      const images = payload.avatar
       const results = []
 
-      for (const image of images) {
-        if (!image || !image.tmpPath) {
+      for (const image of mediaFiles) {
+        if (!image.tmpPath) {
           continue
         }
 
         const baseKey = cuid()
         const ext = image.extname
-
-        // Read the image file as a buffer
         const buffer = await fs.readFile(image.tmpPath)
+        const metadata = await sharp(buffer).metadata()
 
+        // Fetch image sizes from MediaStyle model
         const imageSizes = await MediaStyle.all()
         const sizes = imageSizes.reduce(
           (acc, imageSize) => ({
@@ -51,10 +70,20 @@ export default class MediaController {
 
         const urls: Record<string, string> = {}
 
-        // Process and upload resized images
         for (const [size, dimensions] of Object.entries(sizes) as [
           string,
-          { width: number; height: number; style: string },
+          {
+            style: string
+            hash: string
+            ext: string
+            mime: string
+            url: string
+            provider: string
+            size: number
+            width: number
+            height: number
+            formats: string
+          },
         ][]) {
           const resizedBuffer = await sharp(buffer)
             .resize(dimensions.width, dimensions.height, {
@@ -73,9 +102,22 @@ export default class MediaController {
         await drive.use().put(originalKey, buffer)
         urls['original'] = await drive.use().getUrl(originalKey)
 
+        const media = await Media.create({
+          name: image.clientName,
+          size: image.size,
+          ext: image.extname,
+          hash: baseKey,
+          width: metadata.width,
+          height: metadata.height,
+          mime: image.type,
+          url: urls['original'],
+          provider: 'local',
+          formats: JSON.stringify(urls),
+        })
+
         results.push({
-          originalName: image.clientName,
-          urls,
+          id: media,
+          formats: urls,
         })
       }
 
