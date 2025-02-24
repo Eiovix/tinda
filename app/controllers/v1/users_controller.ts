@@ -15,7 +15,11 @@ export default class UsersController {
           expiresIn: '30 days', // expires in 30 days
         }
       )
-      const profile = await UserProfile.query().where('user_id', user.id).first()
+      const profile = await UserProfile.query()
+        .where('user_id', user.id)
+        .preload('profile_picture') // Fetch full profile picture data
+        .preload('cover_photo') // Fetch full cover photo data
+        .first()
 
       const data = {
         user,
@@ -23,10 +27,7 @@ export default class UsersController {
         token,
       }
 
-      return response.status(200).json({
-        message: 'Login successful.',
-        data,
-      })
+      return response.status(200).json(data)
     } catch (error) {
       console.log('Login error:', error)
       return response.status(401).json({

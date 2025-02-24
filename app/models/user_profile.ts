@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, computed } from '@adonisjs/lucid/orm'
-// import Env from '@ioc:Adonis/Core/Env'
-import Env from '#start/env'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import Media from '#models/media'
+
 export default class UserProfile extends BaseModel {
   @column({ isPrimary: true })
   public id!: number
@@ -10,19 +11,19 @@ export default class UserProfile extends BaseModel {
   public firstName!: string
 
   @column()
-  public middleName: string | null = null
+  public middleName?: string | null
 
   @column()
   public lastName!: string
 
   @column()
-  public profilePicture: number | null = null
+  public profilePicture?: number | null
 
   @column()
-  public coverPhoto: number | null = null
+  public coverPhoto?: number | null
 
   @column()
-  public userId: number | null = null
+  public userId?: number | null
 
   @column.dateTime({ autoCreate: true })
   public createdAt!: DateTime
@@ -30,16 +31,10 @@ export default class UserProfile extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt!: DateTime
 
-  // Compute image URLs dynamically
-  @computed()
-  public get profilePictureUrl() {
-    return this.profilePicture
-      ? `${Env.get('APP_URL')}/uploads/profile_pictures/${this.profilePicture}`
-      : null
-  }
+  /** Relationships */
+  @belongsTo(() => Media, { foreignKey: 'profilePicture' })
+  public profile_picture!: BelongsTo<typeof Media> // Removed `undefined` and made it non-optional
 
-  @computed()
-  public get coverPhotoUrl() {
-    return this.coverPhoto ? `${Env.get('APP_URL')}/uploads/cover_photos/${this.coverPhoto}` : null
-  }
+  @belongsTo(() => Media, { foreignKey: 'coverPhoto' })
+  public cover_photo!: BelongsTo<typeof Media> // Removed `undefined` and made it non-optional
 }
