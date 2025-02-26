@@ -23,8 +23,11 @@ export default class Media extends BaseModel {
   @column()
   declare height: number
 
-  @column()
-  declare formats: string
+  @column({
+    prepare: (value: object) => JSON.stringify(value),
+    consume: (value: string) => JSON.parse(value),
+  })
+  declare formats: object
 
   @column()
   declare hash: string

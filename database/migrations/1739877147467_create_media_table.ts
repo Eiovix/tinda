@@ -12,7 +12,7 @@ export default class extends BaseSchema {
       table.string('caption').nullable()
       table.integer('width').notNullable()
       table.integer('height').notNullable()
-      table.string('formats').nullable()
+      table.json('formats').nullable()
       table.string('hash').notNullable()
       table.string('ext').notNullable()
       table.string('mime').notNullable()
