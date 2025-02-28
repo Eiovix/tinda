@@ -9,12 +9,16 @@ export default class extends BaseSeeder {
         description: 'Developers account.',
       },
       {
-        name: 'employee',
-        description: 'Employee account.',
+        name: 'member',
+        description: 'Store owner account.',
       },
       {
         name: 'store_owner',
         description: 'Store owner account.',
+      },
+      {
+        name: 'employee',
+        description: 'Employee account.',
       },
     ])
   }

@@ -12,6 +12,7 @@ import UsersController from '#controllers/v1/users_controller'
 import UserProfilesController from '#controllers/v1/user_profiles_controller'
 import { middleware } from './kernel.js'
 import MediaController from '#controllers/v1/media_controller'
+import StoresController from '#controllers/v1/stores_controller'
 
 router.get('/', async () => {
   return {
@@ -33,8 +34,16 @@ router
 
 router
   .group(() => {
+    router.post('/stores', [StoresController, 'store'])
+  })
+  .use(middleware.auth())
+  .prefix('api/v1')
+
+router
+  .group(() => {
     router.post('/media', [MediaController, 'store'])
   })
+  .use(middleware.auth())
   .prefix('api/v1')
 
 router

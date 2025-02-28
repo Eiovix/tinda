@@ -10,6 +10,12 @@ export default class extends BaseSeeder {
         password: '1',
         is_verified: true,
       },
+      {
+        email: 'seller@seller.com',
+        username: 'seller',
+        password: '1',
+        is_verified: true,
+      },
     ])
   }
 }

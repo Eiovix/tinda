@@ -70,6 +70,14 @@ export default class UserProfileSeeder extends BaseSeeder {
         profile_picture: 1,
         cover_photo: 1,
       },
+      {
+        user_id: 2,
+        first_name: 'Seller',
+        middle_name: 'A',
+        last_name: 'ccount',
+        profile_picture: 1,
+        cover_photo: 1,
+      },
     ])
   }
 }
