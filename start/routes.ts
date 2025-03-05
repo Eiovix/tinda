@@ -43,7 +43,6 @@ router
   .group(() => {
     router.post('/media', [MediaController, 'store'])
   })
-  .use(middleware.auth())
   .prefix('api/v1')
 
 router

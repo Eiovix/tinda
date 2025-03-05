@@ -6,6 +6,7 @@ import sharp from 'sharp'
 import fs from 'fs/promises'
 import MediaStyle from '#models/media_style'
 import Media from '#models/media'
+import { v4 as uuidv4 } from 'uuid'
 export default class MediaController {
   async store({ request, response }: HttpContext) {
     try {
@@ -104,6 +105,7 @@ export default class MediaController {
 
         const media = await Media.create({
           name: image.clientName,
+          uuid: uuidv4(),
           size: image.size,
           ext: image.extname,
           hash: baseKey,
@@ -116,14 +118,14 @@ export default class MediaController {
         })
 
         results.push({
-          id: media,
+          media: media,
           formats: urls,
         })
       }
 
       return response.ok({
         message: 'Images uploaded and resized successfully',
-        results,
+        data: results,
       })
     } catch (error) {
       if (error.status === 422) {
@@ -132,5 +134,17 @@ export default class MediaController {
 
       return response.badRequest({ error: error.message })
     }
+  }
+
+  async findByUuid({ request, response }: HttpContext) {
+    const { uuid } = request.params()
+
+    const media = await Media.findBy('uuid', uuid)
+
+    if (!media) {
+      return response.notFound({ message: 'Media not found' })
+    }
+
+    return response.ok(media)
   }
 }

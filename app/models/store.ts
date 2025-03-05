@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { v4 as uuidv4 } from 'uuid'
+import Media from '#models/media'
+import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 export default class Store extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
@@ -14,6 +16,9 @@ export default class Store extends BaseModel {
   @column()
   declare store_phone: string
 
+  @column()
+  declare store_slug: string
+
   @column({ prepare: (value: string) => value || uuidv4() })
   declare uuid: string
 
@@ -21,8 +26,18 @@ export default class Store extends BaseModel {
   declare store_email: string
 
   @column()
-  declare slug: string
+  declare storeLogo: number
+
+  @column()
+  declare storeBanner: number
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  /** Relationships */
+  @belongsTo(() => Media, { foreignKey: 'storeLogo' })
+  public store_logo!: BelongsTo<typeof Media>
+
+  @belongsTo(() => Media, { foreignKey: 'storeBanner' })
+  public store_banner!: BelongsTo<typeof Media>
 }

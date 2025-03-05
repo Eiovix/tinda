@@ -1,4 +1,5 @@
 import { BaseSchema } from '@adonisjs/lucid/schema'
+import { v4 as uuidv4 } from 'uuid'
 
 export default class extends BaseSchema {
   protected tableName = 'media'
@@ -9,6 +10,7 @@ export default class extends BaseSchema {
 
       table.string('name').notNullable()
       table.string('alternative_text').nullable()
+      table.string('uuid').nullable().defaultTo(uuidv4())
       table.string('caption').nullable()
       table.integer('width').notNullable()
       table.integer('height').notNullable()

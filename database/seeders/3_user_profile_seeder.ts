@@ -63,20 +63,20 @@ export default class UserProfileSeeder extends BaseSeeder {
   public async run() {
     await UserProfile.createMany([
       {
-        user_id: 1,
-        first_name: 'John',
-        middle_name: 'Hello',
-        last_name: 'Doe',
-        profile_picture: 1,
-        cover_photo: 1,
+        userId: 1,
+        firstName: 'John',
+        middleName: 'Hello',
+        lastName: 'Doe',
+        profilePicture: 1,
+        coverPhoto: 1,
       },
       {
-        user_id: 2,
-        first_name: 'Seller',
-        middle_name: 'A',
-        last_name: 'ccount',
-        profile_picture: 1,
-        cover_photo: 1,
+        userId: 2,
+        firstName: 'Seller',
+        middleName: 'A',
+        lastName: 'ccount',
+        profilePicture: 1,
+        coverPhoto: 1,
       },
     ])
   }
