@@ -21,8 +21,9 @@ export const createStoreValidator = vine.compile(
         const store = await db.from('stores').where('store_slug', value).first()
         return !store
       }),
-    store_phone: vine.string().regex(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/),
+    store_phone: vine.string().regex(/^(09|\+639)\d{9}$/),
     store_email: vine.string().email(),
     store_logo: vine.number(),
+    store_banner: vine.number(),
   })
 )

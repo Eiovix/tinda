@@ -26,18 +26,18 @@ export default class Store extends BaseModel {
   declare store_email: string
 
   @column()
-  declare storeLogo: number
+  declare store_logo: number
 
   @column()
-  declare storeBanner: number
+  declare store_banner: number
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
   /** Relationships */
-  @belongsTo(() => Media, { foreignKey: 'storeLogo' })
-  public store_logo!: BelongsTo<typeof Media>
+  @belongsTo(() => Media, { foreignKey: 'store_logo' })
+  public storeLogo!: BelongsTo<typeof Media> | null
 
-  @belongsTo(() => Media, { foreignKey: 'storeBanner' })
-  public store_banner!: BelongsTo<typeof Media>
+  @belongsTo(() => Media, { foreignKey: 'store_banner' })
+  public storeBanner!: BelongsTo<typeof Media> | null
 }
