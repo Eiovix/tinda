@@ -13,10 +13,13 @@ import UserProfilesController from '#controllers/v1/user_profiles_controller'
 import { middleware } from './kernel.js'
 import MediaController from '#controllers/v1/media_controller'
 import StoresController from '#controllers/v1/stores_controller'
+import UserStoresController from '#controllers/v1/user_stores_controller'
+
+const prefix = '/api/v1'
 
 router.get('/', async () => {
   return {
-    message: 'Tinda API v1',
+    message: 'Just an e-commerce API.',
   }
 })
 
@@ -30,23 +33,32 @@ router
     router.get('/users/:id', [UsersController, 'show'])
     router.put('/users/:id', [UsersController, 'update'])
   })
-  .prefix('api/v1')
+  .prefix(prefix)
 
 router
   .group(() => {
     router.post('/stores', [StoresController, 'store'])
   })
   .use(middleware.auth())
-  .prefix('api/v1')
+  .prefix(prefix)
 
 router
   .group(() => {
     router.post('/media', [MediaController, 'store'])
   })
-  .prefix('api/v1')
+  .prefix(prefix)
 
 router
   .group(() => {
     router.post('/user/profiles', [UserProfilesController, 'store'])
   })
-  .prefix('api/v1')
+  .prefix(prefix)
+
+router
+  .group(() => {
+    router.get('/seller-center/:uuid', [StoresController, 'sellerStoreIndex'])
+    router.get('/seller-center/:store_id/users', [UserStoresController, 'storeUsers'])
+  })
+
+  .use(middleware.auth())
+  .prefix(prefix)

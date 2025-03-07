@@ -25,5 +25,6 @@ export const createStoreValidator = vine.compile(
     store_email: vine.string().email(),
     store_logo: vine.number(),
     store_banner: vine.number(),
+    uuid: vine.string().optional(),
   })
 )

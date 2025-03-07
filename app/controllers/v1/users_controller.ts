@@ -56,7 +56,8 @@ export default class UsersController {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
 
-    const users = await User.query().paginate(page, limit)
+    const users = await User.query().preload('profile').paginate(page, limit)
+
     response.status(200).json(users)
   }
 
